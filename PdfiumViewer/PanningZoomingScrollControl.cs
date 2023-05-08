@@ -292,6 +292,7 @@ namespace PdfiumViewer
                     return false;
 
                 NativeMethods.SendMessage(control.Handle, m.Msg, m.WParam, m.LParam);
+                NativeMethods.SendMessage((control as CustomScrollControl).Buddy.Handle, m.Msg, m.WParam, m.LParam);
                 return true;
             }
         }

@@ -520,6 +520,13 @@ namespace PdfiumViewer
 
         public void PerformScroll(ScrollAction action, Orientation scrollBar)
         {
+            if (!scrolling && Buddy != null && Buddy.IsHandleCreated)
+            {
+                scrolling = true;
+                Buddy.PerformScroll(action, scrollBar);
+                scrolling = false;
+            }
+
             if (scrollBar == Orientation.Horizontal)
             {
                 int pos = -_displayRect.X;
@@ -751,5 +758,8 @@ namespace PdfiumViewer
                 NativeMethods.SetScrollInfo(new HandleRef(_parentControl, _parentControl.Handle), _orientation, si, true);
             }
         }
+
+        private static bool scrolling;
+        public CustomScrollControl Buddy { get; set; }
     }
 }
