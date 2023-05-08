@@ -82,6 +82,7 @@ namespace PdfiumViewer.Demo
             else
             {
                 OpenFile();
+                pdfViewer1.Renderer.ShowAnnotation = false;
             }
 
             _showBookmarks.Checked = pdfViewer1.ShowBookmarks;

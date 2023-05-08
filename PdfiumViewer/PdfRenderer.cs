@@ -37,6 +37,7 @@ namespace PdfiumViewer
         private bool _isSelectingText = false;
         private MouseState _cachedMouseState = null;
         private TextSelectionState _textSelectionState = null;
+        private bool _showAnnotation = true;
 
         /// <summary>
         /// The associated PDF document.
@@ -128,6 +129,15 @@ namespace PdfiumViewer
                 _zoomMode = value;
                 PerformLayout();
             }
+        }
+
+        /// <summary>
+        /// Show annotation flag
+        /// </summary>
+        public bool ShowAnnotation
+        {
+            get { return _showAnnotation; }
+            set { _showAnnotation = value; }
         }
 
         /// <summary>
@@ -823,7 +833,8 @@ namespace PdfiumViewer
             var pageCache = _pageCache[page];
 
             if (pageCache.Image == null)
-                pageCache.Image = Document.Render(page, pageBounds.Width, pageBounds.Height, graphics.DpiX, graphics.DpiY, Rotation, PdfRenderFlags.Annotations);
+                pageCache.Image = Document.Render(page, pageBounds.Width, pageBounds.Height, graphics.DpiX, graphics.DpiY, Rotation,
+                    ShowAnnotation ? PdfRenderFlags.Annotations : PdfRenderFlags.None);
 
             graphics.DrawImageUnscaled(pageCache.Image, pageBounds.Location);
         }
